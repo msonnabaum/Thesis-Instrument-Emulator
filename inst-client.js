@@ -24,12 +24,22 @@ Instrument.prototype.tuningSet = function (pitch_class, cents) {
 
 var inst = new Instrument('localhost', 12000);
 
+// Play random notes, changing the tuning of each note.
 var id = setInterval(function() {
+  pitch = Math.floor(Math.random() * 80) + 30;
+  pc = pitch % 12;
+
+  cents = Math.floor(Math.random() * 200) - 100;
+  inst.tuningSet(pc, cents);
+
   pitch = Math.floor(Math.random() * 80) + 30;
   inst.play(pitch, 120, 990);
 }, 1000);
 
-var t = setInterval(function() {
-  cents = Math.floor(Math.random() * 200) - 100;
-  inst.tuningSet(4, cents);
-}, 100);
+// Play random notes with an offset to get overlap
+var i = setTimeout(function() {
+  var id2 = setInterval(function() {
+    pitch = Math.floor(Math.random() * 80) + 30;
+    inst.play(pitch, 120, 990);
+  }, 1000);
+}, 400);
